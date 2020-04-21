@@ -1,10 +1,10 @@
-const Book = require('../models/bookSchema');
+const Book = require('../models/Book');
 
 
 module.exports = {
     async index( req, res){
 
-        const books = Book.findAll({}, function(err, docs){
+        const books = Book.find({}, function(err, docs){
             if(err){
                 res.json("Erro to find a book");
             }else{
@@ -12,23 +12,27 @@ module.exports = {
             }
         });
 
-        res.json(books);
+        res.json({books});
 
 
     },
-    async addBook(req, res){
+    async store(req, res){
         const{title, description, category, author, publisher, price, cover} = req.body;
-
-       const data =  Book.insertMany({
-            title,
-            description,
-            category,
-            author,
-            publisher,
-            price,
-            cover
-        });
-
-        res.json(data);
+         
+       var newBook = new Book({
+           title: title,
+           description: description,
+           category: category,
+           author: author,
+           publisher:publisher,
+           price:price,
+           cover:cover,
+       });
+        newBook.save(function(err){
+            if(err){
+                res.json({error:"Error to insert."});
+            }
+            res.json({message:"The book was saved."});
+       });
     },
 }

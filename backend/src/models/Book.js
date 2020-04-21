@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose');
-var bookModel =  function(){
+
     const BookSchema = mongoose.Schema({
         title:{
             type: String,
@@ -30,7 +30,6 @@ var bookModel =  function(){
         }
     });
 
-    return mongoose.model('Book', BookSchema);
-}
+ 
 
- module.exports = new bookModel();
+ module.exports = mongoose.model('Book', BookSchema);
