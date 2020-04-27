@@ -13,20 +13,29 @@ module.exports = {
         const salt = saltHash.salt;
         const hash = saltHash.hash;
         const name = request.body.name;
+        const email = request.body.email;
 
        
-        var user =  connection('users').where({name:name});
-        if( user == name){
-
-            response.json({message: "The user Already exist"});
-        }else{
-            await  connection('users')
-            .insert({
-                name: name,
-                email: request.body.email,
-                password: hash,
-            })
-        }
+        await connection('users').select('name')
+                    .where('name', name).andWhere('email', email)
+                    .then((userNameList) =>{
+                        if(userNameList.length === 0){
+                            return connection('users')
+                            .returning('id')
+                            .insert([{
+                                name: name,
+                                email: request.body.email,
+                                password: hash,
+                            }])
+                            .then(() => {
+                                console.log("User Inserted");
+                            });
+                        }
+                        console.log("User already exists")
+                        
+                    });        
+        
+           
        
 
         

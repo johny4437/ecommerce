@@ -28,13 +28,7 @@ app.use(
     }
   })
 );
-var count = 0;
 
-app.get("/", function(req, res, next) {
-  var n = req.session.views || 0;
-  req.session.views = ++n;
-  res.end(n + " views");
-});
 
  app.use(passport.initialize());
  app.use(passport.session());
