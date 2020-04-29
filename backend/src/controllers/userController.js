@@ -10,7 +10,6 @@ module.exports = {
     },
     async store(request, response, next){
         const saltHash = createUser(request.body.password);
-        const salt = saltHash.salt;
         const hash = saltHash.hash;
         const name = request.body.name;
         const email = request.body.email;
@@ -41,5 +40,11 @@ module.exports = {
         
         response.json("Inserted Sucessfully");
     },
+
+    async delete(request, response){
+        const { id }  = request.params;
+        await connection('users').where('id', id).delete();
+        response.status(200).send();
+    }
 
 }
