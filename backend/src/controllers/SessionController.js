@@ -1,6 +1,10 @@
 const connection  = require('../database/connection');
 const compare = require('../lib/passwordUtils').comparePass;
+
+const authConfig = require('../config/auth');
+
 const jwt = require('jsonwebtoken');
+
 
 
 module.exports = {
@@ -27,9 +31,9 @@ module.exports = {
                     name,
                     email
                 },
-                token:{
-
-                }
+                token:jwt.sign({ id }, authConfig.secret, {
+                    expiresIn: authConfig.expiresIn
+                })
             })
             
  }
