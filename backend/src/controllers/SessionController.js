@@ -8,33 +8,31 @@ const jwt = require('jsonwebtoken');
 
 
 module.exports = {
- async login(request, response){
+ async login(request, response, next){
      const{email, password} = request.body;
 
-        const user = await  connection('users')
-            .where('email', email)
-            .select('password','id', 'name')
-            .first();
+        // const user = await  connection('users')
+        //     .where('email', email)
+        //     .select('password','id', 'name')
+        //     .first();
            
             
-            if(!(compare(password, user.password))){
+        //     if(!(compare(password, user.password))){
 
-                response.json({error:"password doesn't match"});
-            }
+        //         response.json({error:"password doesn't match"});
+        //     }
 
-            const {id, name} = user;
+        //     const {id, name} = user;
             
 
-            response.json({
-                user:{
-                    id,
-                    name,
-                    email
-                },
-                token:jwt.sign({ id }, authConfig.secret, {
-                    expiresIn: authConfig.expiresIn
-                })
-            })
+            // response.json({
+            //     user:{
+                    
+                    
+            //         email,
+            //         password
+            //     }
+            // })
             
  }
 }
